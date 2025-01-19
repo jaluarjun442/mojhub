@@ -1,41 +1,121 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video List</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
+@section('title', 'Home')
 
-<body>
-    <h1>Video List</h1>
-    <div class="video-container">
-        <?php foreach ($videos as $video): ?>
-            <div class="video-card">
-                <a href="{{ route('video_detail', ltrim(parse_url(rtrim($video['url'], '/'), PHP_URL_PATH), '/')) }}" class="video-link">
-                    <div class="video-thumb">
-                        <img src="<?php echo $video['thumbnail']; ?>" alt="<?php echo htmlspecialchars($video['title']); ?>" />
+@section('content')
+<section class="news-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-8 col-lg-8">
+                <div class="row pt-30">
+                    <?php foreach ($videos as $video): ?>
+                        <div class="col-xl-4 col-lg-4 col-md-4">
+                            <div class="postbox mb-10">
+                                <div class="postbox__thumb">
+                                    <a href="{{ route('video_detail', ltrim(parse_url(rtrim($video['url'], '/'), PHP_URL_PATH), '/')) }}">
+                                        <img src="<?php echo $video['thumbnail']; ?>" alt="<?php echo htmlspecialchars($video['title']); ?>">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="postbox__text mb-30">
+                                <h4 class="title-16 font-600 pr-0">
+                                    <a href="{{ route('video_detail', ltrim(parse_url(rtrim($video['url'], '/'), PHP_URL_PATH), '/')) }}"><?php echo htmlspecialchars($video['title']); ?></a>
+                                </h4>
+                                <div class="postbox__text-meta pb-10">
+                                    <ul>
+                                        <li>
+                                            <i class="fas fa-clock"></i>
+                                            <span><?php echo $video['time']; ?></span>
+                                        </li>
+                                        <li>
+                                            <i class="fas fa-eye"></i>
+                                            <span><?php echo $video['view']; ?></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- <a href="#" class="btn btn-soft">View Video</a> -->
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <div class="row mt-10 mb-60">
+                    <div class="col-xl-12">
+                        @if(isset($category_name))
+                        <div class="pagination">
+                            <ul>
+                                @if(isset($page_no))
+                                @if($page_no != 1)
+                                <li>
+                                    <a href="{{ route('category', [$category_name,$page_no-1]) }}">Previous</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('category', [$category_name,$page_no-1]) }}">{{$page_no-1}}</a>
+                                </li>
+                                @endif
+                                <li class="active">
+                                    <a href="#">
+                                        <span>{{$page_no}}</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('category', [$category_name,$page_no+1]) }}">{{$page_no+1}}</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('category', [$category_name,$page_no+1]) }}">Next</a>
+                                </li>
+                                @else
+                                <li class="active">
+                                    <a href="#">
+                                        <span>1</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('category', [$category_name,2]) }}">Next</a>
+                                </li>
+                                @endif
+                            </ul>
+                        </div>
+                        @else
+                        <div class="pagination">
+                            <ul>
+                                @if(isset($page_no))
+                                @if($page_no != 1)
+                                <li>
+                                    <a href="{{ route('page', $page_no-1) }}">Previous</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('page', $page_no-1) }}">{{$page_no-1}}</a>
+                                </li>
+                                @endif
+                                <li class="active">
+                                    <a href="#">
+                                        <span>{{$page_no}}</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('page', $page_no+1) }}">{{$page_no+1}}</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('page', $page_no+1) }}">Next</a>
+                                </li>
+                                @else
+                                <li class="active">
+                                    <a href="#">
+                                        <span>1</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('page', 2) }}">Next</a>
+                                </li>
+                                @endif
+                            </ul>
+                        </div>
+                        @endif
                     </div>
-                    <div class="video-info">
-                        <h2 class="video-title"><?php echo htmlspecialchars($video['title']); ?></h2>
-                    </div>
-                </a>
+                </div>
             </div>
-        <?php endforeach; ?>
-        @if(isset($page_no))
-        @if($page_no != 1)
-        <a href="{{ route('page', $page_no-1) }}" class="video-link">Next</a>
-        @endif
-        -
-        {{$page_no}}
-        -
-        <a href="{{ route('page', $page_no+1) }}" class="video-link">Next</a>
-        @else
-        1 -
-        <a href="{{ route('page', 2) }}" class="video-link">Next</a>
-        @endif
+            @include('layouts.sidebar')
+        </div>
     </div>
-</body>
-
-</html>
+</section>
+@endsection

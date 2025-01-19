@@ -23,6 +23,7 @@ Route::get('upload', function () {
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('video/{video_url}', [HomeController::class, 'video_detail'])->name('video_detail');
 Route::get('page/{page_no}', [HomeController::class, 'page'])->name('page');
+Route::get('category/{category_name}/page/{page_no?}', [HomeController::class, 'category'])->name('category');
