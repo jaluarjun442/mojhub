@@ -31,9 +31,9 @@
                             <?php echo htmlspecialchars($video['title']); ?>
                         </h2>
 
-                        <div class="postbox__text mb-30">
-                            <div class="post-thumb mb-25">
-                                <video id="video-id" class="video-player" controls>
+                        <div class="postbox__text mb-30 row">
+                            <div class="post-thumb mb-25 col-xl-12 col-lg-12 col-md-12">
+                                <video id="video-id" class="video-player fluid-player" controls>
                                     <source src="<?php echo $video['download_url']; ?>" type="video/mp4" />
                                 </video>
                             </div>
@@ -70,7 +70,7 @@
                 "playbackRateEnabled": true,
                 "allowDownload": true,
                 "playButtonShowing": true,
-                "fillToContainer": false,
+                "fillToContainer": true,
                 "primaryColor": "blue",
                 "posterImage": ""
             },
@@ -81,4 +81,22 @@
             }
         });
 </script>
+<style>
+    .fluid-player {
+        width: 100%;
+        height: 100vh;
+    }
+
+    @media (max-width: 768px) {
+        .fluid-player {
+            height: auto;
+            max-height: 100vh;
+        }
+    }
+    @media (min-width: 768px) {
+        .fluid-player {
+            max-height: 80vh;
+        }
+    }
+</style>
 @endsection
