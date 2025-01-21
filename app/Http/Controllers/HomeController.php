@@ -85,7 +85,8 @@ class HomeController extends Controller
     {
         $html_content = $this->fetch_url($url);
         $html = str_get_html($html_content);
-        if ($html->find('.post_single h1.title', 0)) {
+        $related_videos = [];
+        if ($html != false && $html->find('.post_single h1.title', 0)) {
             $title = $html->find('.post_single h1.title', 0)->plaintext;
             $download_url = '';
             foreach ($html->find('.downLink a') as $button) {
@@ -95,10 +96,25 @@ class HomeController extends Controller
                     break;
                 }
             }
+            foreach ($html->find('.video_list .video') as $video_element) {
+                $title = $video_element->find('.title', 0)->plaintext ?? "";
+                $video_url = $video_element->find('a', 0)->href ?? "";
+                $thumbnail_url = $video_element->find('img', 0)->src ?? "";
+                $time = $video_element->find('.time', 0)->plaintext ?? "";
+                $view = $video_element->find('.view', 0)->plaintext ?? "";
+                $related_videos[] = [
+                    'title' => $title,
+                    'url' => $video_url,
+                    'thumbnail' => $thumbnail_url,
+                    'time' => $time,
+                    'view' => $view
+                ];
+            }
             return [
                 'title' => $title,
                 'download_url' => $download_url,
-                'url' => $url
+                'url' => $url,
+                'related_videos' => $related_videos
             ];
         } else {
             return false;

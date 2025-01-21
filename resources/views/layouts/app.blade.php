@@ -42,7 +42,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 col-md-3 d-flex align-items-center justify-content-md-start justify-content-center">
-                        <div class="header__logo text-center text-md-left mb-20">
+                        <div class="header__logo text-center text-md-left mb-10">
                             <a href="{{ url('/'); }}">
                                 <img style="height: 75px;" src="{{ url('assets/moj_hub_logo.png') }}" alt="Mojhub Logo">
                             </a>
