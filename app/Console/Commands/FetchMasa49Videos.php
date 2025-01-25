@@ -49,10 +49,12 @@ class FetchMasa49Videos extends Command
                 $this->info("success on page = " . $current_page);
                 foreach ($videos as $post) {
                     $single_video_detail =  HomeController::get_video_detail($post['url']);
-                    $category = Category::where('title', $single_video_detail['category'])->first();
                     $category_id = "";
-                    if ($category) {
-                        $category_id = $category['id'];
+                    if ($single_video_detail['category'] != "") {
+                        $category = Category::where('title', $single_video_detail['category'])->first();
+                        if ($category) {
+                            $category_id = $category['id'];
+                        }
                     }
                     // dd($category, $single_video_detail, $category_id);
                     $db_slug = str_replace('https://masa49.com/', '', $post['url']);
