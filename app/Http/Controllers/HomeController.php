@@ -56,9 +56,9 @@ class HomeController extends Controller
             return view('video_detail', compact('video'));
         }
     }
-    function get_video_data($url)
+    public static function get_video_data($url)
     {
-        $html_content = $this->fetch_url($url);
+        $html_content = self::fetch_url($url);
         $html = str_get_html($html_content);
         $videos = [];
         if ($html != false && $html->find('.video_list .video')) {
@@ -81,13 +81,14 @@ class HomeController extends Controller
             return false;
         }
     }
-    function get_video_detail($url)
+    public static function get_video_detail($url)
     {
-        $html_content = $this->fetch_url($url);
+        $html_content = self::fetch_url($url);
         $html = str_get_html($html_content);
         $related_videos = [];
         if ($html != false && $html->find('.post_single h1.title', 0)) {
             $title = $html->find('.post_single h1.title', 0)->plaintext;
+            $category = $html->find('.tag', 0)->plaintext ?? "";
             $download_url = '';
             foreach ($html->find('.downLink a') as $button) {
                 $href = $button->href;
@@ -114,13 +115,14 @@ class HomeController extends Controller
                 'title' => $title,
                 'download_url' => $download_url,
                 'url' => $url,
-                'related_videos' => $related_videos
+                'category' => $category,
+                // 'related_videos' => $related_videos
             ];
         } else {
             return false;
         }
     }
-    function fetch_url($url)
+    public static function fetch_url($url)
     {
         $ch = curl_init(); // Initialize cURL session
         curl_setopt($ch, CURLOPT_URL, $url); // Set the URL
