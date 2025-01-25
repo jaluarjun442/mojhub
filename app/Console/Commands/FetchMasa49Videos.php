@@ -37,6 +37,7 @@ class FetchMasa49Videos extends Command
         $max_pages = (int)$this->argument('page_no'); // Starting page number
         $total_count = 1;
         $min_pages = 1;
+        $processed_total_count = 0;
         for ($current_page = $max_pages; $current_page >= $min_pages; $current_page--) {
             $scrap_url = "https://masa49.com/page/" . $current_page;
             // $videos = $this->get_video_data($scrap_url);
@@ -48,31 +49,38 @@ class FetchMasa49Videos extends Command
             } else {
                 $this->info("success on page = " . $current_page);
                 foreach ($videos as $post) {
-                    $single_video_detail =  HomeController::get_video_detail($post['url']);
-                    $category_id = "";
-                    if ($single_video_detail['category'] != "") {
-                        $category = Category::where('title', $single_video_detail['category'])->first();
-                        if ($category) {
-                            $category_id = $category['id'];
-                        }
-                    }
-                    // dd($category, $single_video_detail, $category_id);
                     $db_slug = str_replace('https://masa49.com/', '', $post['url']);
-                    Videos::updateOrCreate(
-                        [
-                            'slug' => $db_slug,
-                            'platform' => 'masa49.com'
-                        ],
-                        [
-                            'title' => $post['title'] ?? "",
-                            'video_url' => $single_video_detail['download_url'] ?? "",
-                            'category_id' => $category_id,
-                            'thumbnail' => $post['thumbnail'] ?? "",
-                            'duration' => $post['time'] ?? "",
-                            'added_on' => $post['view'] ?? "",
-                            'status' => 'active'
-                        ]
-                    );
+                    $check_dulicate = Videos::where('slug', $db_slug)->first();
+                    if ($check_dulicate) {
+                    } else {
+                        $single_video_detail =  HomeController::get_video_detail($post['url']);
+                        $category_id = "";
+                        if ($single_video_detail['category'] != "") {
+                            $category = Category::where('title', $single_video_detail['category'])->first();
+                            if ($category) {
+                                $category_id = $category['id'];
+                            }
+                        }
+                        // dd($category, $single_video_detail, $category_id);
+
+                        Videos::updateOrCreate(
+                            [
+                                'slug' => $db_slug,
+                                'platform' => 'masa49.com'
+                            ],
+                            [
+                                'title' => $post['title'] ?? "",
+                                'video_url' => $single_video_detail['download_url'] ?? "",
+                                'category_id' => $category_id,
+                                'thumbnail' => $post['thumbnail'] ?? "",
+                                'duration' => $post['time'] ?? "",
+                                'added_on' => $post['view'] ?? "",
+                                'status' => 'active'
+                            ]
+                        );
+                        $this->info("processed " . $processed_total_count);
+                        $processed_total_count++;
+                    }
                     $this->info("total count : " . $total_count);
                     $total_count++;
                 }
