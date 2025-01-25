@@ -34,11 +34,12 @@ class FetchMasa49Videos extends Command
         // $max_pages = 4041; // Starting maximum page number
 
         // $max_pages = 4350; // Maximum number of pages to loop through
-        $max_pages = (int)$this->argument('page_no'); // Starting page number
+        $max_pages = 10; // Starting page number
+        $page_no = (int)$this->argument('page_no'); // Starting page number
         $total_count = 1;
         $min_pages = 1;
         $processed_total_count = 0;
-        for ($current_page = $max_pages; $current_page >= $min_pages; $current_page--) {
+        for ($current_page = $page_no; $current_page <= $max_pages; $current_page++) {
             $scrap_url = "https://masa49.com/page/" . $current_page;
             // $videos = $this->get_video_data($scrap_url);
             $videos = HomeController::get_video_data($scrap_url);
@@ -78,7 +79,7 @@ class FetchMasa49Videos extends Command
                                 'status' => 'active'
                             ]
                         );
-                        $this->info("processed " . $processed_total_count);
+                        // $this->info("processed " . $processed_total_count);
                         $processed_total_count++;
                     }
                     $this->info("total count : " . $total_count);
