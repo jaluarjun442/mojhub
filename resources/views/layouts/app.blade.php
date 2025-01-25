@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="manifest" href="https://devsnews.com/template/bungee/bungee/site.webmanifest/">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ url('assets/img/favicon.ico') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url('assets/img/favicon.png') }}">
 
     <link rel="stylesheet" href="{{ url('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url('assets/css/owl.carousel.min.css') }}">
@@ -30,6 +30,15 @@
             display: block;
             font-weight: 500;
             position: relative;
+        }
+
+        .pagination ul li a {
+            background: lightblue;
+            color: darkblue;
+        }
+
+        .pagination ul li.active a {
+            background: lavenderblush;
         }
     </style>
 </head>
@@ -66,69 +75,17 @@
                             </a>
                         </div>
                         <?php
-                        $category_array = array(
-                            [
-                                'id' => 1,
-                                'name' => 'Desi Porn',
-                                'slug' => 'category/desi-amateur-porn/page/1',
-                                'sort' => 1
-                            ],
-                            [
-                                'id' => 2,
-                                'name' => "Indian Porn",
-                                'slug' => 'category/indian-amateur-porn/page/1',
-                                'sort' => 2
-                            ],
-                            [
-                                'id' => 3,
-                                'name' => "Pakistani Videos",
-                                'slug' => 'category/pakistani-amateur-porn/page/1',
-                                'sort' => 3
-                            ],
-                            [
-                                'id' => 4,
-                                'name' => "Sri Lankan Porn",
-                                'slug' => 'category/sri-lankan-porn/page/1',
-                                'sort' => 4
-                            ],
-                            [
-                                'id' => 5,
-                                'name' => "Popular Videos",
-                                'slug' => 'category/other-amateur-porn/page/1',
-                                'sort' => 5
-                            ],
-                            [
-                                'id' => 6,
-                                'name' => "Model Videos",
-                                'slug' => 'category/model-videos/page/1',
-                                'sort' => 6
-                            ],
-                            // [
-                            //     'id' => 7,
-                            //     'name' => "Tango Videos",
-                            //     'slug' => 'category/tango-app-videos/page/1',
-                            //     'sort' => 7
-                            // ],
-                            [
-                                'id' => 8,
-                                'name' => "Web Series",
-                                'slug' => 'category/web-series/page/1',
-                                'sort' => 8
-                            ],
-                            // [
-                            //     'id' => 9,
-                            //     'name' => "Dating Videos",
-                            //     'slug' => 'category/chamet-app-live-videos/page/1',
-                            //     'sort' => 9
-                            // ],
-                        );
+
+                        use App\Models\Category;
+
+                        $category_array = Category::where('status', 'active')->get();
                         ?>
                         <div class="header__menu f-left">
                             <nav id="mobile-menu">
                                 <ul>
                                     <li class=""><a class="" href="{{ url('/') }}">Home</a></li>
                                     <?php foreach ($category_array as $category_key => $category_item) { ?>
-                                        <li><a href="{{ url('/').'/'.$category_item['slug']; }}"><?php echo $category_item['name']; ?></a></li>
+                                        <li><a href="{{ route('category', [$category_item['slug'],1]) }}"><?php echo $category_item['title']; ?></a></li>
                                     <?php } ?>
                                 </ul>
                             </nav>

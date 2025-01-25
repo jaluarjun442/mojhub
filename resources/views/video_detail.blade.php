@@ -31,7 +31,7 @@
                         <div class="postbox__text mb-30 row">
                             <div class="post-thumb mb-25 col-xl-12 col-lg-12 col-md-12">
                                 <video id="video-id" class="video-player fluid-player" controls>
-                                    <source src="<?php echo $video['download_url']; ?>" type="video/mp4" />
+                                    <source src="<?php echo $video['video_url']; ?>" type="video/mp4" />
                                 </video>
                             </div>
                             <!-- <a href="#" class="btn btn-soft">View Video</a> -->
@@ -43,29 +43,29 @@
                     <div class="col-xl-12 col-lg-12 col-md-12">
                         <div class="row pt-10">
                             <?php
-                            if (count($video['related_videos']) > 0) {
-                                foreach ($video['related_videos'] as $video): ?>
+                            if (count($related_videos) > 0) {
+                                foreach ($related_videos as $video): ?>
                                     <div class="col-xl-4 col-lg-4 col-md-4">
                                         <div class="postbox mb-10">
                                             <div class="postbox__thumb">
-                                                <a target="_BLANK" href="{{ route('video_detail', ltrim(parse_url(rtrim($video['url'], '/'), PHP_URL_PATH), '/')) }}">
+                                                <a target="" href="{{ route('video_detail', ltrim(parse_url(rtrim($video['slug'], '/'), PHP_URL_PATH), '/')) }}">
                                                     <img src="<?php echo $video['thumbnail']; ?>" alt="<?php echo htmlspecialchars($video['title']); ?>">
                                                 </a>
                                             </div>
                                         </div>
                                         <div class="postbox__text mb-30">
                                             <h4 class="title-16 font-600 pr-0">
-                                                <a target="_BLANK" href="{{ route('video_detail', ltrim(parse_url(rtrim($video['url'], '/'), PHP_URL_PATH), '/')) }}"><?php echo htmlspecialchars($video['title']); ?></a>
+                                                <a target="" href="{{ route('video_detail', ltrim(parse_url(rtrim($video['slug'], '/'), PHP_URL_PATH), '/')) }}"><?php echo htmlspecialchars($video['title']); ?></a>
                                             </h4>
                                             <div class="postbox__text-meta pb-10">
                                                 <ul>
                                                     <li>
                                                         <i class="fas fa-clock"></i>
-                                                        <span><?php echo $video['time']; ?></span>
+                                                        <span><?php echo $video['duration']; ?></span>
                                                     </li>
                                                     <li>
                                                         <i class="fas fa-eye"></i>
-                                                        <span><?php echo $video['view']; ?></span>
+                                                        <span><?php echo $video['added_on']; ?></span>
                                                     </li>
                                                 </ul>
                                             </div>

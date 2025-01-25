@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Videos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,88 +11,49 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        $search = "";
         if (isset($request->s)) {
-            $search = $request->s;
+            $search = urlencode($request->s);
+            $scrap_url = "https://masa49.com/?s=" . $search;
+        } else {
+            $search = '';
+            $scrap_url = "https://masa49.com";
         }
-        if ($request->get('page_no') && $request->get('page_no') != "") {
-            return redirect()->route('page', $request->get('page_no'));
+        $videos = $this->get_video_data($scrap_url);
+        if ($videos != false) {
+            return view('welcome', compact('videos'));
+        } else {
+            return redirect()->to($request->fullUrl());
         }
-        $pageNo = $request->get('page_no') ?? 1;
-        $perPage = 15;
-        $videos = Videos::where('status', 'active')
-            ->when($search != '', function ($query) use ($search) {
-                $query->where('title', 'like', '%' . $search . '%')
-                    ->orwhere('id', $search);
-            })
-            ->orderBy('id', 'desc')
-            ->forPage($pageNo, $perPage)
-            ->get();
-        $totalRecords = Videos::where('status', 'active')
-            ->when($search != '', function ($query) use ($search) {
-                $query->where('title', 'like', '%' . $search . '%')
-                    ->orwhere('id', $search);
-            })->count();
-        $maxPage = (int) ceil($totalRecords / $perPage);
-        return view('welcome', compact('videos', 'maxPage'));
     }
     public function page(Request $request, $page_no)
     {
-        if ($request->get('page_no') && $request->get('page_no') != "") {
-            return redirect()->route('page', $request->get('page_no'));
-        }
-        $pageNo = $request->get('page_no') ?? $page_no;
-        $perPage = 15;
-        $videos = Videos::where('status', 'active')
-            ->orderBy('id', 'desc')
-            ->forPage($pageNo, $perPage)
-            ->get();
-        $totalRecords = Videos::where('status', 'active')->count();
-        $maxPage = (int) ceil($totalRecords / $perPage);
-        if ($videos) {
-            return view('welcome', compact('videos', 'page_no', 'maxPage'));
+        $scrap_url = "https://masa49.com/page/" . $page_no;
+        $videos = $this->get_video_data($scrap_url);
+        if ($videos != false) {
+            return view('welcome', compact('videos', 'page_no'));
         } else {
-            return redirect()->route('home');
+            return redirect()->to($request->fullUrl());
         }
     }
     public function category(Request $request, $category_name, $page_no = 1)
     {
-        if ($request->get('page_no') && $request->get('page_no') != "") {
-            return redirect()->route('category', [$category_name, $request->get('page_no')]);
-        }
-        $category_data = Category::where('slug', $category_name)->first();
-        if ($category_data) {
-            $pageNo = $request->get('page_no') ?? $page_no;
-            $perPage = 15;
-            $videos = Videos::where('status', 'active')
-                ->orderBy('id', 'desc')
-                ->where('category_id', $category_data->id)
-                ->forPage($pageNo, $perPage)
-                ->get();
-            $totalRecords = Videos::where('status', 'active')->where('category_id', $category_data->id)->count();
-            $maxPage = (int) ceil($totalRecords / $perPage);
-            if ($videos) {
-                return view('welcome', compact('videos', 'category_name', 'page_no', 'maxPage'));
-            } else {
-                return redirect()->route('home');
-            }
+        $scrap_url = "https://masa49.com/category/" . $category_name . '/page/' . $page_no;
+        $videos = $this->get_video_data($scrap_url);
+        if ($videos != false) {
+            return view('welcome', compact('videos', 'category_name', 'page_no'));
         } else {
-            return redirect()->route('home');
+            return redirect()->to($request->fullUrl());
         }
     }
     function video_detail(Request $request, $video_url)
     {
-        $video = Videos::where('status', 'active')
-            ->where('slug', $video_url . '/')
-            ->first();
-        $related_videos = Videos::where('status', 'active')
-            ->inRandomOrder()
-            ->limit(9)
-            ->get();
-        if ($video) {
-            return view('video_detail', compact('video', 'related_videos'));
+        $base_url = "https://masa49.com";
+        $video_url = $base_url . '/' . $video_url;
+        $video = $this->get_video_detail($video_url);
+        if ($video == false) {
+            return redirect()->to($request->fullUrl());
         } else {
-            return redirect()->route('home');
+            return view('video_detail', compact('video'));
         }
     }
     public static function get_video_data($url)

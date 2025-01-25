@@ -12,24 +12,24 @@
                         <div class="col-xl-4 col-lg-4 col-md-4">
                             <div class="postbox mb-10">
                                 <div class="postbox__thumb">
-                                    <a href="{{ route('video_detail', ltrim(parse_url(rtrim($video['url'], '/'), PHP_URL_PATH), '/')) }}">
+                                    <a target="_BLANK" href="{{ route('video_detail', ltrim(parse_url(rtrim($video['slug'], '/'), PHP_URL_PATH), '/')) }}">
                                         <img src="<?php echo $video['thumbnail']; ?>" alt="<?php echo htmlspecialchars($video['title']); ?>">
                                     </a>
                                 </div>
                             </div>
                             <div class="postbox__text mb-30">
                                 <h4 class="title-16 font-600 pr-0">
-                                    <a href="{{ route('video_detail', ltrim(parse_url(rtrim($video['url'], '/'), PHP_URL_PATH), '/')) }}"><?php echo htmlspecialchars($video['title']); ?></a>
+                                    <a target="_BLANK" href="{{ route('video_detail', ltrim(parse_url(rtrim($video['slug'], '/'), PHP_URL_PATH), '/')) }}"><?php echo htmlspecialchars($video['title']); ?></a>
                                 </h4>
                                 <div class="postbox__text-meta pb-10">
                                     <ul>
                                         <li>
                                             <i class="fas fa-clock"></i>
-                                            <span><?php echo $video['time']; ?></span>
+                                            <span><?php echo $video['duration']; ?></span>
                                         </li>
                                         <li>
                                             <i class="fas fa-eye"></i>
-                                            <span><?php echo $video['view']; ?></span>
+                                            <span><?php echo $video['added_on']; ?></span>
                                         </li>
                                     </ul>
                                 </div>
@@ -39,7 +39,27 @@
                     <?php endforeach; ?>
                 </div>
                 <div class="row mt-10 mb-60">
-                    <div class="col-xl-12">
+                    <div class="col-xl-12 text-center">
+                        <form method="GET" action="{{ url()->current() }}" class="page-jump-form">
+                            <div class="d-flex align-items-center gap-2 mb-20" style="display: flex !important;flex-direction: row;flex-wrap: nowrap;justify-content: center;align-items: center;">
+                                <label for="page_no" class="form-label mb-0">Go To Page: </label>
+                                <input
+                                    id="page_no"
+                                    class="form-control form-control-md col-md-2 ml-10 mr-10"
+                                    type="number"
+                                    name="page_no"
+                                    placeholder="page number"
+                                    min="1"
+                                    max="{{ $maxPage }}"
+                                    required>
+                                <button
+                                    class="btn btn-primary btn-sm"
+                                    type="submit">
+                                    Go
+                                </button>
+                            </div>
+                        </form>
+
                         @if(isset($category_name))
                         <div class="pagination">
                             <ul>
@@ -57,22 +77,35 @@
                                         <span>{{$page_no}}</span>
                                     </a>
                                 </li>
-                                <li>
+                                @if($page_no != $maxPage && $page_no <= $maxPage)
+                                    <li>
                                     <a href="{{ route('category', [$category_name,$page_no+1]) }}">{{$page_no+1}}</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('category', [$category_name,$page_no+1]) }}">Next</a>
-                                </li>
-                                @else
-                                <li class="active">
-                                    <a href="#">
-                                        <span>1</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('category', [$category_name,2]) }}">Next</a>
-                                </li>
-                                @endif
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('category', [$category_name,$page_no+1]) }}">Next</a>
+                                    </li>
+                                    ...
+                                    <li>
+                                        <a href="{{ route('category', [$category_name,$maxPage]) }}">Last({{$maxPage}})</a>
+                                    </li>
+                                    @endif
+                                    @else
+                                    <li class="active">
+                                        <a href="#">
+                                            <span>1</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('category', [$category_name,2]) }}">2</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('category', [$category_name,2]) }}">Next</a>
+                                    </li>
+                                    ...
+                                    <li>
+                                        <a href="{{ route('category', [$category_name,$maxPage]) }}">Last({{$maxPage}})</a>
+                                    </li>
+                                    @endif
                             </ul>
                         </div>
                         @else
@@ -92,22 +125,35 @@
                                         <span>{{$page_no}}</span>
                                     </a>
                                 </li>
-                                <li>
+                                @if($page_no != $maxPage && $page_no <= $maxPage)
+                                    <li>
                                     <a href="{{ route('page', $page_no+1) }}">{{$page_no+1}}</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('page', $page_no+1) }}">Next</a>
-                                </li>
-                                @else
-                                <li class="active">
-                                    <a href="#">
-                                        <span>1</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('page', 2) }}">Next</a>
-                                </li>
-                                @endif
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('page', $page_no+1) }}">Next</a>
+                                    </li>
+                                    ...
+                                    <li>
+                                        <a href="{{ route('page', [$maxPage]) }}">Last({{$maxPage}})</a>
+                                    </li>
+                                    @endif
+                                    @else
+                                    <li class="active">
+                                        <a href="#">
+                                            <span>1</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('page', 2) }}">2</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('page', 2) }}">Next</a>
+                                    </li>
+                                    ...
+                                    <li>
+                                        <a href="{{ route('page', [$maxPage]) }}">Last({{$maxPage}})</a>
+                                    </li>
+                                    @endif
                             </ul>
                         </div>
                         @endif
