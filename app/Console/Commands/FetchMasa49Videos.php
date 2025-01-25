@@ -81,9 +81,9 @@ class FetchMasa49Videos extends Command
                         );
                         // $this->info("processed " . $processed_total_count);
                         $processed_total_count++;
+                        $this->info("total processed count : " . $total_count);
+                        $total_count++;
                     }
-                    $this->info("total count : " . $total_count);
-                    $total_count++;
                 }
             }
         }
