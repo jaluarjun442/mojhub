@@ -116,7 +116,7 @@ class HomeController extends Controller
                 'download_url' => $download_url,
                 'url' => $url,
                 'category' => $category,
-                // 'related_videos' => $related_videos
+                'related_videos' => $related_videos
             ];
         } else {
             return false;
