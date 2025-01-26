@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('header_script')->nullable();
             $table->text('header_style')->nullable();
             $table->text('footer_script')->nullable();
+            $table->text('sidebar')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();
         });

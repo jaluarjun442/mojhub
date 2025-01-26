@@ -71,6 +71,10 @@
                                             <label for="image">Foter Script</label>
                                             <textarea class="form-control" id="footer_script" name="footer_script">{{$website->footer_script}}</textarea>
                                         </div>
+                                        <div class="form-group">
+                                            <label for="image">Sidebar</label>
+                                            <textarea class="form-control" id="sidebar" name="sidebar">{{$website->sidebar}}</textarea>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

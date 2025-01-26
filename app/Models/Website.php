@@ -17,6 +17,7 @@ class Website extends Model
         'header_script',
         'header_style',
         'footer_script',
+        'sidebar',
         'status',
     ];
 }

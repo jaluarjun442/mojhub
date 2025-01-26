@@ -42,7 +42,7 @@ class WebsiteController extends Controller
             'status' => 'required|in:active,inactive',
         ]);
 
-        $data = $request->only(['title', 'slug', 'status', 'header_script', 'header_style', 'footer_script']);
+        $data = $request->only(['title', 'slug', 'status', 'sidebar', 'header_script', 'header_style', 'footer_script']);
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -83,7 +83,7 @@ class WebsiteController extends Controller
             'status' => 'required|in:active,inactive',
         ]);
 
-        $data = $request->only(['title', 'slug', 'status', 'header_script', 'header_style', 'footer_script']);
+        $data = $request->only(['title', 'slug', 'status', 'sidebar', 'header_script', 'header_style', 'footer_script']);
 
         if ($request->hasFile('image')) {
             if ($website->logo && file_exists(public_path('uploads/website/' . $website->logo))) {

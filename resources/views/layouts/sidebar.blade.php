@@ -1,3 +1,18 @@
+<?php
+
+use App\Models\Website;
+
+if (env('APP_ENV') == 'local') {
+    $website_data = Website::where('id', 1)->first();
+} else {
+    $website_data = Website::where('slug', Illuminate\Support\Str::after(request()->getHost(), 'www.'))->first();
+}
+?>
+<div class="col-xl-4 col-lg-4">
+    <?php
+    echo $website_data->sidebar;
+    ?>
+</div>
 <!-- <div class="col-xl-4 col-lg-4">
     <div class="widget mb-40">
         <a href="#">
