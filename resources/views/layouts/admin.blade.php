@@ -107,6 +107,12 @@
                             </ul>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ route('admin.website.index') }}" class="nav-link">
+                                <i class="nav-icon fa fa-sign-out-alt"></i>
+                                <p>Websites</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('admin.categories.index') }}" class="nav-link">
                                 <i class="nav-icon fa fa-sign-out-alt"></i>
                                 <p>Categories</p>

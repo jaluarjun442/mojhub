@@ -125,7 +125,11 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="copyright text-center">
-                            <p>© Copyrights <?php echo date('Y'); ?>. All rights reserved.</p>
+                            <p>© Copyrights <?php echo date('Y'); ?>
+                                <?php
+                                echo Illuminate\Support\Str::after(request()->getHost(), 'www.');
+                                ?>.
+                                All rights reserved.</p>
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,1 @@
+<a href="{{ route('admin.website.edit', $website->id) }}" class="btn btn-warning btn-sm">Edit</a>
