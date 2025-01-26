@@ -1,3 +1,13 @@
+<?php
+
+use App\Models\Website;
+
+if (env('APP_ENV') == 'local') {
+    $website_data = Website::where('id', 1)->first();
+} else {
+    $website_data = Website::where('slug', Illuminate\Support\Str::after(request()->getHost(), 'www.'))->first();
+}
+?>
 <!doctype html>
 <html class="no-js" lang="en">
 
@@ -37,10 +47,15 @@
             color: darkblue;
         }
 
-        .pagination ul li.active a {
-            background: lavenderblush;
-        }
+        <?php
+        echo $website_data->header_style;
+        ?>
     </style>
+    <script>
+        <?php
+        echo $website_data->header_script;
+        ?>
+    </script>
 </head>
 
 <body>
@@ -126,9 +141,11 @@
                     <div class="col-12">
                         <div class="copyright text-center">
                             <p>© Copyrights <?php echo date('Y'); ?>
+                                -
                                 <?php
-                                echo Illuminate\Support\Str::after(request()->getHost(), 'www.');
-                                ?>.
+                                echo $website_data->slug;
+                                ?>
+                                -
                                 All rights reserved.</p>
                         </div>
                     </div>
@@ -154,6 +171,9 @@
     <script src="{{ url('assets/js/jquery.magnific-popup.min.js') }}"></script>
     <script src="{{ url('assets/js/plugins.js') }}"></script>
     <script src="{{ url('assets/js/main.js') }}"></script>
+    <?php
+    echo $website_data->footer_script;
+    ?>
 </body>
 
 </html>
