@@ -37,7 +37,7 @@
                             <!-- <a href="#" class="btn btn-soft">View Video</a> -->
                         </div>
                         <h2 class="details-title mb-15">
-                            <?php echo htmlspecialchars($video['title']); ?>
+                            <?php echo htmlspecialchars($video['title']); ?> - <?php echo $video['id']; ?>
                         </h2>
                     </div>
                     <div class="col-xl-12 col-lg-12 col-md-12">
@@ -102,14 +102,14 @@
                     "width": null
                 },
                 "autoPlay": false,
-                "mute": true,
+                "mute": false,
                 "playPauseAnimation": true,
                 "playbackRateEnabled": true,
                 "allowDownload": true,
                 "playButtonShowing": true,
                 "fillToContainer": true,
                 "primaryColor": "blue",
-                "posterImage": ""
+                "posterImage": "<?php echo $video['thumbnail'] ?? ''; ?>"
             },
             "vastOptions": {
                 "adList": [],
