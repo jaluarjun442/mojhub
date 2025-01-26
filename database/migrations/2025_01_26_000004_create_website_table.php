@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->string('slug')->nullable();
             $table->string('logo')->nullable();
-            $table->string('header_script')->nullable();
-            $table->string('header_style')->nullable();
-            $table->string('footer_script')->nullable();
+            $table->text('header_script')->nullable();
+            $table->text('header_style')->nullable();
+            $table->text('footer_script')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();
         });
