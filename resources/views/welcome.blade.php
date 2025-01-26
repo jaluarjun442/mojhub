@@ -84,10 +84,10 @@
                                     <li>
                                         <a href="{{ route('category', [$category_name,$page_no+1]) }}">Next</a>
                                     </li>
-                                    ...
+                                    <!-- ...
                                     <li>
                                         <a href="{{ route('category', [$category_name,$maxPage]) }}">Last({{$maxPage}})</a>
-                                    </li>
+                                    </li> -->
                                     @endif
                                     @else
                                     <li class="active">
@@ -101,10 +101,10 @@
                                     <li>
                                         <a href="{{ route('category', [$category_name,2]) }}">Next</a>
                                     </li>
-                                    ...
+                                    <!-- ...
                                     <li>
                                         <a href="{{ route('category', [$category_name,$maxPage]) }}">Last({{$maxPage}})</a>
-                                    </li>
+                                    </li> -->
                                     @endif
                             </ul>
                         </div>
@@ -132,10 +132,10 @@
                                     <li>
                                         <a href="{{ route('page', $page_no+1) }}">Next</a>
                                     </li>
-                                    ...
+                                    <!-- ...
                                     <li>
                                         <a href="{{ route('page', [$maxPage]) }}">Last({{$maxPage}})</a>
-                                    </li>
+                                    </li> -->
                                     @endif
                                     @else
                                     <li class="active">
@@ -149,10 +149,10 @@
                                     <li>
                                         <a href="{{ route('page', 2) }}">Next</a>
                                     </li>
-                                    ...
+                                    <!-- ...
                                     <li>
                                         <a href="{{ route('page', [$maxPage]) }}">Last({{$maxPage}})</a>
-                                    </li>
+                                    </li> -->
                                     @endif
                             </ul>
                         </div>
