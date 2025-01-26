@@ -27,10 +27,10 @@
                                             <i class="fas fa-clock"></i>
                                             <span><?php echo $video['duration']; ?></span>
                                         </li>
-                                        <li>
+                                        <!-- <li>
                                             <i class="fas fa-eye"></i>
                                             <span><?php echo $video['added_on']; ?></span>
-                                        </li>
+                                        </li> -->
                                     </ul>
                                 </div>
                                 <!-- <a href="#" class="btn btn-soft">View Video</a> -->
