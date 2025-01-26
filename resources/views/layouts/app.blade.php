@@ -51,11 +51,11 @@ if (env('APP_ENV') == 'local') {
         echo $website_data->header_style;
         ?>
     </style>
-    <script>
+    <!-- <script> -->
         <?php
         echo $website_data->header_script;
         ?>
-    </script>
+    <!-- </script> -->
 </head>
 
 <body>
