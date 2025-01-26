@@ -112,7 +112,7 @@
                 "playButtonShowing": true,
                 "fillToContainer": true,
                 "primaryColor": "blue",
-                "posterImage": "<?php echo $video_thumbnail; ?? ''; ?>"
+                "posterImage": "<?php echo $video_thumbnail ?? ''; ?>"
             },
             "vastOptions": {
                 "adList": [],
