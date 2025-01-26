@@ -14,7 +14,7 @@ if (env('APP_ENV') == 'local') {
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>MojHub</title>
+    <title>MojHub - Latest Videos</title>
     <meta name="description" content="MojHub Daily latest video">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
