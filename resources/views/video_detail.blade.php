@@ -32,6 +32,9 @@
                             <div class="post-thumb mb-25 col-xl-12 col-lg-12 col-md-12">
                                 <video id="video-id" class="video-player fluid-player" controls>
                                     <source src="<?php echo $video['video_url']; ?>" type="video/mp4" />
+                                    <?php 
+                                        $video_thumbnail = $video['thumbnail'] ?? "";
+                                    ?>
                                 </video>
                             </div>
                             <!-- <a href="#" class="btn btn-soft">View Video</a> -->
@@ -109,7 +112,7 @@
                 "playButtonShowing": true,
                 "fillToContainer": true,
                 "primaryColor": "blue",
-                "posterImage": "<?php echo $video['thumbnail'] ?? ''; ?>"
+                "posterImage": "<?php echo $video_thumbnail; ?? ''; ?>"
             },
             "vastOptions": {
                 "adList": [],
