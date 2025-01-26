@@ -15,10 +15,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleDriveController;
 use App\Http\Controllers\HomeController;
 
-Route::post('upload-video', [GoogleDriveController::class, 'uploadVideo']);
-Route::get('play-video/{id}', [GoogleDriveController::class, 'playVideo']);
-Route::get('upload', function () {
-    return view('upload');
+Route::prefix('admin')->group(function () {
+    require base_path('routes/admin.php');
 });
 // Route::get('/', function () {
 //     return view('welcome');
